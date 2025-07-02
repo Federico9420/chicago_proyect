@@ -1,0 +1,31 @@
+{% extends 'Chicago/base.html' %}
+{% block content %}
+{% load socialaccount %}
+
+{% if user.is_authenticated %}
+  <p>Bienvenido! Has ingresado como {{ user.username }}</p>
+  <a href="{% url 'Chicago:logout_view' %}">Cerrar Sesión</a>  
+{% else %}
+  <h2>Inicie Sesión</h2>
+
+  <a href="{% provider_login_url 'google' %}">Iniciar con Google</a>
+
+  {% for message in messages %}
+    <p>{{ message }}</p>
+  {% endfor %}
+
+  <h3>Iniciar desde tu cuenta</h3>
+
+  <form method="post" action="{% url 'Chicago:login_view' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Ingresar</button>
+  </form>
+
+  <hr>
+
+  <p>¿No tenés cuenta?</p>
+  <a href="{% url 'Chicago:registrar_cliente' %}">Registrate acá</a>
+{% endif %}
+
+{% endblock content %}
