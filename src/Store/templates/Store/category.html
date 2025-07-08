@@ -1,0 +1,64 @@
+{% extends 'Store/base_store.html' %}
+
+{% block content %}
+<div class="container px-4 px-lg-5 mt-5">
+    <h2 class="mb-4 text-center">Categoría: {{ category_name|title }}</h2>
+
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+        {% for producto in productos %}
+            <div class="col mb-5">
+                <div class="card h-100">
+                    {% if producto.precio_oferta %}
+                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">
+                            Sale
+                        </div>
+                    {% endif %}
+
+                    <img class="card-img-top" src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <h5 class="fw-bolder">{{ producto.nombre }}</h5>
+
+                            {% if producto.precio_oferta %}
+                                <span class="text-muted text-decoration-line-through">${{ producto.precio }}</span>
+                                ${{ producto.precio_oferta }}
+                            {% else %}
+                                ${{ producto.precio }}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                            <form method="POST" action="{% url 'Store:add_to_cart' producto.id %}">
+                                {% csrf_token %}
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Agregar al carrito
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        {% for stock in producto.stocks.all %}
+                                            {% if stock.cantidad > 0 %}
+                                                <li>
+                                                    <button type="submit" name="talle_id" value="{{ stock.talle.id }}" class="dropdown-item">
+                                                        Talle {{ stock.talle.nombre }}
+                                                    </button>
+                                                </li>
+                                            {% endif %}
+                                        {% empty %}
+                                            <li><span class="dropdown-item text-muted">Sin stock</span></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

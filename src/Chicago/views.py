@@ -18,7 +18,7 @@ def about(request):
 #STORE FUNCTIONS:
 
 def store(request):
-    return render(request, 'Chicago/store.html')
+    return render(request, 'Store/index_store.html')
     
 #SOCIAL MEDIA FUNCTIONS:
 

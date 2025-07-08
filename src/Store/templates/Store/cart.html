@@ -1,0 +1,37 @@
+{% extends 'Store/base_store.html' %}
+
+{% block content %}
+  <h1>Mi Carrito</h1>
+
+    {% if items %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.nombre }}</td>
+                        <td>${{ item.precio }}</td>
+                        <td>{{ item.cantidad }}</td>
+                        <td>${{ item.subtotal }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h3>Total: ${{ total }}</h3>
+
+        <a href="#">Finalizar compra</a>
+    
+    {% else %}
+        <p>Tu carrito está vacío.</p>
+    {% endif %}
+
+    <a href="{% url 'Store:index_store' %}">Volver al Store</a>
+{% endblock content %}

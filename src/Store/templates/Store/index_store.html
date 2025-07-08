@@ -1,0 +1,10 @@
+{% extends 'Store/base_store.html' %}
+
+{% block content %}
+        {% load socialaccount %}
+    <a href="{% url 'Chicago:index' %}">Inicio con logo</a>    
+    <a href="{% url 'Store:index_store' %}">Inicio</a>
+    <a href="{% url 'Chicago:about' %}">Acerca de Nosotros</a>
+    <a href="{% url 'Store:cart' %}">Carrito</a><br>
+    
+{% endblock content %}
